@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import home
+from .metodos.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
+    path('cap1/', cap1, name='cap1'),
+    path('cap2/', cap2, name='cap2'),
+    path('cap3/', cap3, name='cap3'),
 ]
