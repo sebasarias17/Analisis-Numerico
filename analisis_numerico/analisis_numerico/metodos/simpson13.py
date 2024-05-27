@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from typing import Callable, Union
 
 def simpson13(a: Union[int, float], b: Union[int, float], n: int, f: Callable[[Union[int, float]], float]) -> float:
@@ -47,7 +48,40 @@ def simpson13(a: Union[int, float], b: Union[int, float], n: int, f: Callable[[U
     # Mostrar la tabla
     print(df)
     
+    # Graficar la función y los puntos
+    plot_function_and_points(a, b, f, x, fx)
+
     return val
+
+def plot_function_and_points(a: float, b: float, f: Callable[[float], float], x: np.ndarray, fx: np.ndarray):
+    """
+    Grafica la función y los puntos utilizados en la integración.
+    
+    Args:
+        a (float): Límite inferior del intervalo.
+        b (float): Límite superior del intervalo.
+        f (Callable[[float], float]): Función a graficar.
+        x (np.ndarray): Puntos x utilizados en la integración.
+        fx (np.ndarray): Valores de la función en los puntos x.
+    """
+    # Crear un rango de valores x para la gráfica de la función
+    x_continuous = np.linspace(a, b, 400)
+    f_continuous = np.array([f(xi) for xi in x_continuous])
+
+    # Crear la gráfica
+    plt.figure(figsize=(10, 6))
+    plt.plot(x_continuous, f_continuous, label='f(x)', color='blue')
+    plt.scatter(x, fx, color='red', zorder=5, label='Puntos de integración')
+    
+    # Etiquetas y título
+    plt.xlabel('x')
+    plt.ylabel('f(x)')
+    plt.title('Integración por el método de Simpson 1/3 compuesto')
+    plt.legend()
+    plt.grid(True)
+    
+    # Mostrar la gráfica
+    plt.show()
 
 def funcion_a_integrar(x: Union[int, float]) -> float:
     """
