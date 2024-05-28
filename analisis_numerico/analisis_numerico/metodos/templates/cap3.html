@@ -1,38 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Proyecto de Análisis Numérico</title>
+<head>
+    <meta charset="UTF-8">
+    <title>Capítulo 3</title>
     {% load static %}
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/styles.css' %}"
-      href="{% static 'css/styles.css' %}"
-    />
-    <link href="https://fonts.cdnfonts.com/css/sunflower-2" rel="stylesheet" />
-  </head>
-  <body>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles-cap3.css' %}">
+    <link href="https://fonts.cdnfonts.com/css/sunflower-2" rel="stylesheet">
+    <script>
+        function showForm(method) {
+            document.querySelectorAll('.method-form').forEach(form => {
+                form.style.display = 'none';
+            });
+            if (method) {
+                document.getElementById(method).style.display = 'block';
+            }
+        }
+        window.onload = function() {
+            const selectedMethod = "{{ selected_method }}";
+            if (selectedMethod) {
+                showForm(selectedMethod);
+                document.getElementById('method-select').value = selectedMethod;
+            }
+        }
+    </script>
+</head>
+<body>
     <header>
-      <h1>Bienvenido al Capitulo 3</h1>
+        <h1>Bienvenido al Capítulo 3</h1>
     </header>
 
     <div class="button-container">
-      <a href="/cap1"><button>Capítulo 1</button></a>
-      <a href="/cap3"><button>Capítulo 3</button></a>
-      <a href="/cap4"><button>Capítulo 4</button></a>
-      <a href="/"><button>Regresar al inicio</button></a>
+        <a href="/cap1"><button>Capítulo 1</button></a>
+        <a href="/cap2"><button>Capítulo 2</button></a>
+        <a href="/cap4"><button>Capítulo 4</button></a>
+        <a href="/"><button>Regresar al inicio</button></a>
+    </div>
+
+    <div class="methods_container">
+        <label for="method-select">Selecciona un método:</label>
+        <select id="method-select" onchange="showForm(this.value)">
+            <option value="">--Selecciona un método--</option>
+            <option value="vandermonde">Vandermonde</option>
+            <option value="newton">Newton Interpolante</option>
+        </select>
+    </div>
+
+    <div id="vandermonde" class="method-form" style="display: none;">
+        <h2 class="title">Método de Vandermonde</h2>
+        <form method="POST" action="{% url 'vandermonde' %}" class="form">
+            {% csrf_token %}
+            <input type="text" placeholder="Valores de X" class="input" name="x_values">
+            <input type="text" placeholder="Valores de Y" class="input" name="y_values">
+            <input type="submit" value="Calcular" class="button">
+        </form>
+    </div>
+
+    <div id="newton" class="method-form" style="display: none;">
+        <h2 class="title">Método de Newton Interpolante</h2>
+        <form method="POST" action="{% url 'newton' %}" class="form">
+            {% csrf_token %}
+            <input type="text" placeholder="Valores de X" class="input" name="x_values">
+            <input type="text" placeholder="Valores de Y" class="input" name="y_values">
+            <input type="submit" value="Calcular" class="button">
+        </form>
     </div>
 
     <footer>
-      <div class="footer-content">
-        <h2>Integrantes del proyecto</h2>
-        <p class="name">Julián Mejía</p>
-        <p class="name">David Grisales</p>
-        <p class="name">Camilo</p>
-        <p class="name">Juancito</p>
-        <p class="name">Sebastián Arias Usma</p>
-      </div>
+        <div class="footer-content">
+            <h2 class="title">Integrantes del proyecto</h2>
+            <p class="name">Julián Mejía</p>
+            <p class="name">David Grisales</p>
+            <p class="name">Camilo Córdoba Posada</p>
+            <p class="name">Juan Esteban Garcia</p>
+            <p class="name">Sebastián Arias Usma</p>
+        </div>
     </footer>
-  </body>
+</body>
 </html>
