@@ -13,7 +13,7 @@
   </head>
   <body>
     <header>
-      <h1>Bienvenido al Capitulo 3</h1>
+      <h1>Bienvenido al Capitulo 1</h1>
     </header>
 
     <div class="button-container">
@@ -24,23 +24,13 @@
     <div class="methods_container">
       <div>
         <h2 class="title">Bisección</h2>
-        <form method="POST" action="/cap4/" class="form">
+        <form method="POST" action="/cap1/" class="form">
           {% csrf_token %}
+          <input type="text" placeholder="Xi" class="input" name="Xi" />
+          <input type="text" placeholder="Xs" class="input" name="Xs" />
           <input
             type="text"
-            placeholder="Cota superior"
-            class="input"
-            name="Xi"
-          />
-          <input
-            type="text"
-            placeholder="Cota inferior"
-            class="input"
-            name="Xs"
-          />
-          <input
-            type="text"
-            placeholder="Funcion"
+            placeholder="Tolerancia"
             class="input"
             name="tol"
           />
@@ -50,67 +40,107 @@
             class="input"
             name="n"
           />
+          <input type="hidden" name="form_type" value="biseccion" />
           <input type="submit" value="Submit Form 1" class="button" />
         </form>
       </div>
 
       <div>
         <h2 class="title">Regla falsa</h2>
-        <form method="POST" action="/cap4/" class="form">
+        <form method="POST" action="/cap1/" class="form">
           {% csrf_token %}
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
+          <input
+            type="text"
+            placeholder="Funcion"
+            name="Funcion"
+            class="input"
+          />
+          <input type="text" placeholder="X0" name="X0" class="input" />
+          <input 
+            type="text"
+            placeholder="X1" 
+            name="X1" 
+            class="input" />
+          <input
+            type="text"
+            placeholder="Tolerancia"
+            name="tol"
+            class="input"
+          />
+          <input
+            type="text"
+            placeholder="Cantidad de iteraciones"
+            name="n"
+            class="input"
+          />
+          <input type="hidden" name="form_type" value="Reglafalsa" />
           <input type="submit" value="Submit Form 1" class="button" />
         </form>
       </div>
       <div>
         <h2 class="title">Punto fijo</h2>
-        <form method="POST" action="/cap4/" class="form">
+        <form method="POST" action="/cap1/" class="form">
           {% csrf_token %}
           <input type="text" placeholder="" class="input" />
           <input type="text" placeholder="" class="input" />
           <input type="text" placeholder="" class="input" />
           <input type="text" placeholder="" class="input" />
           <input type="text" placeholder="" class="input" />
+          <input type="hidden" name="form_type" value="Puntofijo" />
           <input type="submit" value="Submit Form 1" class="button" />
         </form>
       </div>
       <div>
         <h2 class="title">Newton</h2>
-        <form method="POST" action="/cap4/" class="form">
+        <form method="POST" action="/cap1/" class="form">
           {% csrf_token %}
           <input type="text" placeholder="" class="input" />
           <input type="text" placeholder="" class="input" />
           <input type="text" placeholder="" class="input" />
           <input type="text" placeholder="" class="input" />
           <input type="text" placeholder="" class="input" />
+          <input type="hidden" name="form_type" value="Newton" />
           <input type="submit" value="Submit Form 1" class="button" />
         </form>
       </div>
       <div>
         <h2 class="title">Secante</h2>
-        <form method="POST" action="/cap4/" class="form">
+        <form method="POST" action="/cap1/" class="form">
           {% csrf_token %}
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
+          <input
+            type="text"
+            placeholder="Funcion"
+            name="Funcion"
+            class="input"
+          />
+          <input type="text" placeholder="X0" name="X0" class="input" />
+          <input type="text" placeholder="X1" name="X1" class="input" />
+          <input
+            type="text"
+            placeholder="Tolerancia"
+            name="tol"
+            class="input"
+          />
+          <input
+            type="text"
+            placeholder="Cantidad de iteraciones"
+            name="n"
+            class="input"
+          />
+          <input type="hidden" name="form_type" value="Secante" />
           <input type="submit" value="Submit Form 1" class="button" />
         </form>
       </div>
       <div>
         <h2 class="title">Newton raices multiples</h2>
-        <form method="POST" action="/cap4/" class="form">
+        <form method="POST" action="/cap1/" class="form">
           {% csrf_token %}
           <input type="text" placeholder="" class="input" />
           <input type="text" placeholder="" class="input" />
           <input type="text" placeholder="" class="input" />
           <input type="text" placeholder="" class="input" />
           <input type="text" placeholder="" class="input" />
+          <input type="hidden" name="form_type" value="Newton2" />
           <input type="submit" value="Submit Form 1" class="button" />
         </form>
       </div>

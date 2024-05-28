@@ -4,16 +4,29 @@
     <meta charset="UTF-8" />
     <title>Proyecto de Análisis Numérico</title>
     {% load static %}
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/styles.css' %}"
-    />
     <link href="https://fonts.cdnfonts.com/css/sunflower-2" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles-cap4.css' %}"/>
+    <script>
+      function showForm(method) {
+        document.querySelectorAll('.method-form').forEach(form => {
+          form.style.display = 'none';
+        });
+        if (method) {
+          document.getElementById(method).style.display = 'block';
+        }
+      }
+      window.onload = function() {
+        const selectedMethod = "{{ selected_method }}";
+        if (selectedMethod) {
+          showForm(selectedMethod);
+          document.getElementById('method-select').value = selectedMethod;
+        }
+      }
+    </script>
   </head>
   <body>
     <header>
-      <h1>Bienvenido al Capitulo 1</h1>
+      <h1>Bienvenido al Capitulo 2</h1>
     </header>
 
     <div class="button-container">
@@ -22,14 +35,68 @@
       <a href="/cap4"><button>Integrales</button></a>
       <a href="/"><button>Regresar al inicio</button></a>
     </div>
+    <div class="methods_container">
+      <label for="method-select">Selecciona un método:</label>
+      <select id="method-select" onchange="showForm(this.value)">
+        <option value="">--Selecciona un método--</option>
+        <option value="JacobiSeidel">JacobiSeidel</option>
+        <option value="SOR">SOR</option>
+      </select>
+    </div>
+    <div id="JacobiSeidel" class="method-form" style="display: none;">
+      <p>Recuerde que en este metodo debe ingresar el límite inferior de integración (a), el límite superior de integración (b) y el número de subintervalos (múltiplo de 3).</p>
+      <h2 class="title">Metodo JacobiSeidel</h2>
+      <form method="POST" action="{% url 'cap2' %}" class="form">
+        {% csrf_token %}
+        <input type="hidden" name="method" value="JacobiSeidel" />
+        <input type="text" placeholder="Cota inferior (a)" class="input" name="a" value="{{ a }}" />
+        <input type="text" placeholder="Cota superior (b)" class="input" name="b" value="{{ b }}" />
+        <input type="text" placeholder="Número de intervalos (n)" class="input" name="n" value="{{ n }}" />
+        <input type="submit" value="Calcular" class="button" />
+      </form>
+      {% if selected_method == 'JacobiSeidel' %}
+        {% if result is not None %}
+          <p>Resultado: {{ result }}</p>
+        {% endif %}
+        {% if error %}
+          <p style="color:red;">Error: {{ error }}</p>
+        {% endif %}
+        {% if img_data %}
+          <img src="data:image/png;base64,{{ img_data }}" alt="Gráfica de la función"/>
+        {% endif %}
+      {% endif %}
+    </div>
 
+    <div id="SOR" class="method-form" style="display: none;">
+      <p>Recuerde que en este metodo debe ingresar el límite inferior de integración (a), el límite superior de integración (b) y el número de subintervalos (mayor que 1).</p>
+      <h2 class="title">Metodo SOR</h2>
+      <form method="POST" action="{% url 'cap2' %}" class="form">
+        {% csrf_token %}
+        <input type="hidden" name="method" value="SOR" />
+        <input type="text" placeholder="Cota inferior (a)" class="input" name="a" value="{{ a }}" />
+        <input type="text" placeholder="Cota superior (b)" class="input" name="b" value="{{ b }}" />
+        <input type="text" placeholder="Número de intervalos (n)" class="input" name="n" value="{{ n }}" />
+        <input type="submit" value="Calcular" class="button" />
+      </form>
+      {% if selected_method == 'SOR' %}
+        {% if result is not None %}
+          <p>Resultado: {{ result }}</p>
+        {% endif %}
+        {% if error %}
+          <p style="color:red;">Error: {{ error }}</p>
+        {% endif %}
+        {% if img_data %}
+          <img src="data:image/png;base64,{{ img_data }}" alt="Gráfica de la función"/>
+        {% endif %}
+      {% endif %}
+    </div>
     <footer>
       <div class="footer-content">
-        <h2>Integrantes del proyecto</h2>
+        <h2 class="title">Integrantes del proyecto</h2>
         <p class="name">Julián Mejía</p>
         <p class="name">David Grisales</p>
-        <p class="name">Camilo</p>
-        <p class="name">Juancito</p>
+        <p class="name">Camilo Córdoba Posada</p>
+        <p class="name">Juan Esteban Garcia</p>
         <p class="name">Sebastián Arias Usma</p>
       </div>
     </footer>

@@ -1,0 +1,1 @@
+Iteración	 x0		 x1		 x2		 f(x2)		 Error

@@ -84,26 +84,3 @@ def biseccion(xi, xs, Tol, niter):
             file.write(result)
             return None, None, None
 
-def plot_function(f, xi, xs):
-    x_vals = np.linspace(xi, xs, 1000)
-    y_vals = [f.subs(x, val).evalf() for val in x_vals]
-    plt.plot(x_vals, y_vals)
-    plt.xlabel('x')
-    plt.ylabel('f(x)')
-    plt.title('Gráfico de la función')
-    plt.grid(True)
-    plt.show()
-
-
-xi = 1
-xs = 3
-Tol = 1e-5
-niter = 100
-s, E, fm = biseccion(xi, xs, Tol, niter)
-print(f'Raíz aproximada: {s}')
-print(f'Errores: {E}')
-print(f'Valores de la función: {fm}')
-
-x = sp.symbols('x')
-f = x**2 - 5*x + 6*sp.sin(x)
-plot_function(f, xi, xs)
