@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from django.shortcuts import render
-from analisis_numerico.analisis_numerico.metodos.puntoFijo import pf
+from analisis_numerico.metodos.puntoFijo import pf
 from analisis_numerico.metodos.biseccion import biseccion
 from analisis_numerico.metodos.simpson38 import (
     simpson_38,
