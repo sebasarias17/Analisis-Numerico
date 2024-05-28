@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from django.shortcuts import render
+from analisis_numerico.analisis_numerico.metodos.puntoFijo import pf
 from analisis_numerico.metodos.biseccion import biseccion
 from analisis_numerico.metodos.simpson38 import (
     simpson_38,
@@ -59,7 +60,16 @@ def cap1(request):
             except:
                 pass
         if form_type == "Puntofijo":
-            print("pf")
+            functionf = request.POST.get("Funcionf")
+            iteraciones = int(request.POST.get("niter"))
+            x0 = float(request.POST.get("X0"))
+            functiong = request.POST.get("Funciong")
+            tol = float(request.POST.get("tolerancia"))
+            result = pf(x0, tol,iteraciones,functionf,functiong)
+            try:
+                result = result.to_html(classes ='table table-bordered', index = False)
+            except:
+                pass
         if form_type == "Newton":
             print("Newton")
         if form_type == "Secante":
