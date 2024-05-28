@@ -34,16 +34,19 @@ def cap1(request):
     A = b = X0 = tol = itera = result = error = form_type  =None
     if request.method == "POST":
         form_type = request.POST.get("form_type")
-        if form_type == "biseccion":
+        if form_type == "Bisección":
+            function = request.POST.get("Funcion")
             xi = float(request.POST.get("Xi"))
             xs = float(request.POST.get("Xs"))
             tol = float(request.POST.get("tol"))
             iteraciones = int(request.POST.get("n"))
-
-            print(xi)
-            print(xs)
-            print(iteraciones)
-            result = biseccion(xi, xs, tol, iteraciones)
+            function = CorregirFuncion(function)
+            result = biseccion(function, xi, xs, tol, iteraciones)
+            try:
+               result = result.to_html(classes='table table-bordered', index=False)
+               print(result)
+            except:
+                pass
         if form_type == "Reglafalsa":
             function = request.POST.get("Funcion")
             x0 = float(request.POST.get("X0"))
@@ -64,9 +67,8 @@ def cap1(request):
             x0 = float(request.POST.get("X0"))
             x1 = float(request.POST.get("X1"))
             tol = float(request.POST.get("tol"))
-            n = int(request.POST.get("n"))
             function = CorregirFuncion(function)
-            result =secante(function, x0, x1, tol, n)
+            result =secante(function, x0, x1, tol)
             try:
                result = result.to_html(classes='table table-bordered', index=False)
             except:

@@ -20,7 +20,6 @@ def secante(f_str, X0, X1, tolerancia):
         X1 = Xn1
 
     df_resultados = pd.DataFrame(resultados, columns=['Iteración', 'Xn', 'f(Xn)', 'Error'])
-    print(df_resultados)
     return df_resultados
 
 def graficar_funcion(f, raiz):
@@ -40,11 +39,3 @@ def graficar_funcion(f, raiz):
     plt.grid(True)
     plt.show()
 
-# Ejemplo de uso
-"""f_str = 'np.exp(-x) - x'
-X0 = 0
-X1 = 1
-tolerancia = 1e-5
-
-df_resultados = secante(f_str, X0, X1, tolerancia)
-print(df_resultados)"""

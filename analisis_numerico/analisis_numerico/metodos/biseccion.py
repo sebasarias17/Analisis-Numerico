@@ -1,13 +1,11 @@
-import sympy as sp
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-def biseccion(f, xi, xs, Tol, niter):
-    x = sp.symbols('x')
+def biseccion(f_str, xi, xs, Tol, niter):
+    f = lambda x: eval(f_str)
 
-    fi = f.subs(x, xi).evalf()
-    fs = f.subs(x, xs).evalf()
+    fi = f(xs)
+    fs = f(xi)
 
     resultados = []
 
@@ -26,7 +24,7 @@ def biseccion(f, xi, xs, Tol, niter):
     elif fs * fi < 0:
         c = 0
         xm = (xi + xs) / 2
-        fm = [f.subs(x, xm).evalf()]
+        fm = [f(xm)]
         fe = fm[c]
         E = [Tol + 1]
         error = E[c]
@@ -41,14 +39,14 @@ def biseccion(f, xi, xs, Tol, niter):
         while error > Tol and fe != 0 and c < niter:
             if fi * fe < 0:
                 xs = xm
-                fs = f.subs(x, xs).evalf()
+                fs = f(xs)
             else:
                 xi = xm
-                fi = f.subs(x, xi).evalf()
+                fi = f(xi)
 
             xa = xm
             xm = (xi + xs) / 2
-            fm.append(f.subs(x, xm).evalf())
+            fm.append(f(xm))
             fe = fm[c + 1]
             E.append(abs(xm - xa))
             error = E[c + 1]
@@ -78,3 +76,12 @@ def biseccion(f, xi, xs, Tol, niter):
         print(result)
         return pd.DataFrame(columns=['Iteración', 'xa', 'xm', 'Error'])
 
+# Ejemplo de uso
+"""f = "x**3 - 4*x - 9"
+xi = 2
+xs = 3
+Tol = 1e-5
+niter = 100
+
+resultados = biseccion(f, xi, xs, Tol, niter)
+print(resultados)"""

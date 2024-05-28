@@ -51,27 +51,43 @@
       </select>
     </div>
     <div class="methods_container">
+
       <div id="Bisección" class="method-form" style="display: none">
         <h2 class="title">Bisección</h2>
-        <form method="POST" action="/cap1/" class="form">
+        
+        <form method="POST" action="{% url 'cap1' %}" class="form">
           {% csrf_token %}
-          <input type="text" placeholder="Xi" class="input" name="Xi" />
-          <input type="text" placeholder="Xs" class="input" name="Xs" />
+          <input
+            type="text"
+            placeholder="Funcion"
+            name="Funcion"
+            class="input"
+          />
+          <input type="text" placeholder="Xs" name="Xs" class="input" />
+          <input 
+            type="text"
+            placeholder="Xi" 
+            name="Xi" 
+            class="input" />
           <input
             type="text"
             placeholder="Tolerancia"
-            class="input"
             name="tol"
+            class="input"
           />
           <input
             type="text"
             placeholder="Cantidad de iteraciones"
-            class="input"
             name="n"
+            class="input"
           />
-          <input type="hidden" name="form_type" value="biseccion" />
+          <input type="hidden" name="form_type" value="Bisección" />
           <input type="submit" value="Submit Form 1" class="button" />
         </form>
+        {% if selected_method == 'Bisección' %} {% if result is not None %}
+        <button>Descargar</button></a>
+        <h1>{{name}}</h1>
+        {{result | safe}}{% endif %}{% endif %}
       </div>
 
       <div id="Reglafalsa" class="method-form" style="display: none">
@@ -154,12 +170,6 @@
             type="text"
             placeholder="Tolerancia"
             name="tol"
-            class="input"
-          />
-          <input
-            type="text"
-            placeholder="Cantidad de iteraciones"
-            name="n"
             class="input"
           />
           <input type="hidden" name="form_type" value="Secante" />
