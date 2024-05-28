@@ -3,7 +3,6 @@ import numpy as np
 from math import *
 from analisis_numerico.metodos.inputFixed import CorregirFuncion
 
-
 def regla_falsa(f, a, b, tol, niter):
     """
     Método de regla falsa
@@ -29,7 +28,7 @@ def regla_falsa(f, a, b, tol, niter):
     elif fb == 0:
         solucion = b
         mensaje = f"{solucion} es raiz de f(x)"
-        return resultados, mensaje, solucion
+        return pd.DataFrame(resultados, columns=['Iteración', 'a', 'x', 'b', 'f(x)', 'Error']), mensaje, solucion
     elif fa * fb < 0:
         c = 0
         x = (a * fb - b * fa) / (fb - fa)
@@ -66,25 +65,25 @@ def regla_falsa(f, a, b, tol, niter):
                     "{:.3e}".format(Error),
                 ]
             )
-        print(resultados)    
+        df_resultados = pd.DataFrame(resultados, columns=['Iteración', 'a', 'x', 'b', 'f(x)', 'Error'])
         if fx == 0:
             solucion = "{:.5f}".format(x)
             mensaje = str(solucion) + " es raiz de f(x)"
-            return resultados, mensaje, solucion
+            return df_resultados, mensaje, solucion
         elif Error <= tol:
             solucion = "{:.5f}".format(x)
             mensaje = (
                 str(solucion)
-                + " es una aproximacion de un raiz de f(x) con una tolerancia "
+                + " es una aproximacion de una raiz de f(x) con una tolerancia "
                 + str(tol)
             )
-            return resultados, mensaje, solucion
+            return df_resultados, mensaje, solucion
         else:
             solucion = "{:.5f}".format(x)
             mensaje = "Fracaso en " + str(niter) + " iteraciones"
-            return resultados, mensaje, None
+            return df_resultados, mensaje, None
     else:
         mensaje = "El intervalo es inadecuado"
         return None, mensaje, None
 
-
+# Ejemplo de uso:

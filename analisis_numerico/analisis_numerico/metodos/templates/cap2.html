@@ -5,23 +5,27 @@
     <title>Proyecto de Análisis Numérico</title>
     {% load static %}
     <link href="https://fonts.cdnfonts.com/css/sunflower-2" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles-cap4.css' %}"/>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/styles-cap4.css' %}"
+    />
     <script>
       function showForm(method) {
-        document.querySelectorAll('.method-form').forEach(form => {
-          form.style.display = 'none';
+        document.querySelectorAll(".method-form").forEach((form) => {
+          form.style.display = "none";
         });
         if (method) {
-          document.getElementById(method).style.display = 'block';
+          document.getElementById(method).style.display = "block";
         }
       }
-      window.onload = function() {
+      window.onload = function () {
         const selectedMethod = "{{ selected_method }}";
         if (selectedMethod) {
           showForm(selectedMethod);
-          document.getElementById('method-select').value = selectedMethod;
+          document.getElementById("method-select").value = selectedMethod;
         }
-      }
+      };
     </script>
   </head>
   <body>
@@ -43,52 +47,116 @@
         <option value="SOR">SOR</option>
       </select>
     </div>
-    <div id="JacobiSeidel" class="method-form" style="display: none;">
-      <p>Recuerde que en este metodo debe ingresar el límite inferior de integración (a), el límite superior de integración (b) y el número de subintervalos (múltiplo de 3).</p>
-      <h2 class="title">Metodo JacobiSeidel</h2>
+    <div id="JacobiSeidel" class="method-form" style="display: none">
+      <p>
+        Recuerde que en este metodo es un 2 en 1 para gauss seider 0 para jacobi
+        el formato para ingresar los datos es x, y, asi para valores seguidos en una matriz y ; para una siguiente columna
+        por ejemplo para una matrix de 3 x 1 0;0;0
+      </p>
+      <h2 class="title">Metodo Jacobi-Seidel</h2>
       <form method="POST" action="{% url 'cap2' %}" class="form">
         {% csrf_token %}
         <input type="hidden" name="method" value="JacobiSeidel" />
-        <input type="text" placeholder="Cota inferior (a)" class="input" name="a" value="{{ a }}" />
-        <input type="text" placeholder="Cota superior (b)" class="input" name="b" value="{{ b }}" />
-        <input type="text" placeholder="Número de intervalos (n)" class="input" name="n" value="{{ n }}" />
-        <input type="submit" value="Calcular" class="button" />
+        <input
+        type="text"
+        placeholder="Matriz A"
+        class="input"
+        name="a"
+        value="{{ a }}"
+      />
+      <input
+        type="text"
+        placeholder="Matriz B"
+        class="input"
+        name="b"
+        value="{{ b }}"
+      />
+      <input
+        type="text"
+        placeholder="X0"
+        class="input"
+        name="X0"
+        value="{{ a }}"
+      />
+      <input
+        type="text"
+        placeholder="Tolerancia"
+        class="input"
+        name="tol"
+        value="{{ a }}"
+      />
+      <input
+        type="text"
+        placeholder="Número de intervalos (n)"
+        class="input"
+        name="n"
+        value="{{ n }}"
+      />
+      <input
+        type="text"
+        placeholder="Metodo"
+        class="input"
+        name="metodo"
+        value="{{ n }}"
+      />
+      <input type="submit" value="Calcular" class="button" />
       </form>
-      {% if selected_method == 'JacobiSeidel' %}
-        {% if result is not None %}
-          <p>Resultado: {{ result }}</p>
-        {% endif %}
-        {% if error %}
-          <p style="color:red;">Error: {{ error }}</p>
-        {% endif %}
-        {% if img_data %}
-          <img src="data:image/png;base64,{{ img_data }}" alt="Gráfica de la función"/>
-        {% endif %}
-      {% endif %}
+      {% if selected_method == 'JacobiSeidel' %} {% if result is not None %}
+      <button>Descargar</button></a>
+      <h1>{{name}}</h1>
+      {{result | safe}}{% endif %}{% endif %}
     </div>
 
-    <div id="SOR" class="method-form" style="display: none;">
-      <p>Recuerde que en este metodo debe ingresar el límite inferior de integración (a), el límite superior de integración (b) y el número de subintervalos (mayor que 1).</p>
+    <div id="SOR" class="method-form" style="display: none">
+      <p>
+        el formato para ingresar los datos es x, y, asi para valores seguidos en una matriz y ; para una siguiente columna
+        por ejemplo para una matrix de 3 x 1 0;0;0
+      </p>
       <h2 class="title">Metodo SOR</h2>
       <form method="POST" action="{% url 'cap2' %}" class="form">
         {% csrf_token %}
         <input type="hidden" name="method" value="SOR" />
-        <input type="text" placeholder="Cota inferior (a)" class="input" name="a" value="{{ a }}" />
-        <input type="text" placeholder="Cota superior (b)" class="input" name="b" value="{{ b }}" />
-        <input type="text" placeholder="Número de intervalos (n)" class="input" name="n" value="{{ n }}" />
+        <input
+          type="text"
+          placeholder="Matriz A"
+          class="input"
+          name="a"
+          value="{{ a }}"
+        />
+        <input
+          type="text"
+          placeholder="Matriz B"
+          class="input"
+          name="b"
+          value="{{ b }}"
+        />
+        <input
+          type="text"
+          placeholder="X0"
+          class="input"
+          name="X0"
+          value="{{ a }}"
+        />
+        <input
+          type="text"
+          placeholder="Tolerancia"
+          class="input"
+          name="tol"
+          value="{{ a }}"
+        />
+        <input
+          type="text"
+          placeholder="Número de intervalos (n)"
+          class="input"
+          name="n"
+          value="{{ n }}"
+        />
         <input type="submit" value="Calcular" class="button" />
       </form>
-      {% if selected_method == 'SOR' %}
-        {% if result is not None %}
-          <p>Resultado: {{ result }}</p>
-        {% endif %}
-        {% if error %}
-          <p style="color:red;">Error: {{ error }}</p>
-        {% endif %}
-        {% if img_data %}
-          <img src="data:image/png;base64,{{ img_data }}" alt="Gráfica de la función"/>
-        {% endif %}
-      {% endif %}
+      {% if selected_method == 'SOR' %} {% if result is not None %}
+      <button>Descargar</button></a>
+      <h1>{{name}}</h1>
+      {{result | safe}}{% endif %}{% endif %}
     </div>
     <footer>
       <div class="footer-content">

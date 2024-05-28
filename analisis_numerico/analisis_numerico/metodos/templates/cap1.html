@@ -7,9 +7,26 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'css/styles.css' %}"
+      href="{% static 'css/styles-cap4.css' %}"
     />
     <link href="https://fonts.cdnfonts.com/css/sunflower-2" rel="stylesheet" />
+    <script>
+      function showForm(method) {
+        document.querySelectorAll(".method-form").forEach((form) => {
+          form.style.display = "none";
+        });
+        if (method) {
+          document.getElementById(method).style.display = "block";
+        }
+      }
+      window.onload = function () {
+        const selectedMethod = "{{ selected_method }}";
+        if (selectedMethod) {
+          showForm(selectedMethod);
+          document.getElementById("method-select").value = selectedMethod;
+        }
+      };
+    </script>
   </head>
   <body>
     <header>
@@ -17,12 +34,24 @@
     </header>
 
     <div class="button-container">
-      <a href="/cap1"><button>Capítulo 1</button></a>
       <a href="/cap2"><button>Capítulo 2</button></a>
-      <a href="/cap4"><button>Capítulo 4</button></a>
+      <a href="/cap3"><button>Capítulo 3</button></a>
+      <a href="/cap4"><button>Integrales</button></a>
     </div>
     <div class="methods_container">
-      <div>
+      <label for="method-select">Selecciona un método:</label>
+      <select id="method-select" onchange="showForm(this.value)">
+        <option value="">--Selecciona un método--</option>
+        <option value="Bisección">Bisección</option>
+        <option value="Reglafalsa">Regla Falsa</option>
+        <option value="Puntofijo">Punto fijo</option>
+        <option value="Newton">Newton</option>
+        <option value="Secante">Secante</option>
+        <option value="Newton2">Newton2</option>
+      </select>
+    </div>
+    <div class="methods_container">
+      <div id="Bisección" class="method-form" style="display: none">
         <h2 class="title">Bisección</h2>
         <form method="POST" action="/cap1/" class="form">
           {% csrf_token %}
@@ -45,9 +74,10 @@
         </form>
       </div>
 
-      <div>
+      <div id="Reglafalsa" class="method-form" style="display: none">
         <h2 class="title">Regla falsa</h2>
-        <form method="POST" action="/cap1/" class="form">
+        
+        <form method="POST" action="{% url 'cap1' %}" class="form">
           {% csrf_token %}
           <input
             type="text"
@@ -76,9 +106,14 @@
           <input type="hidden" name="form_type" value="Reglafalsa" />
           <input type="submit" value="Submit Form 1" class="button" />
         </form>
+        {% if selected_method == 'Reglafalsa' %} {% if result is not None %}
+        <button>Descargar</button></a>
+        <h1>{{name}}</h1>
+        {{result | safe}}{% endif %}{% endif %}
       </div>
-      <div>
+      <div id="Puntofijo" class="method-form" style="display: none">
         <h2 class="title">Punto fijo</h2>
+        <p>todo es con error relativo</p>
         <form method="POST" action="/cap1/" class="form">
           {% csrf_token %}
           <input type="text" placeholder="" class="input" />
@@ -90,7 +125,7 @@
           <input type="submit" value="Submit Form 1" class="button" />
         </form>
       </div>
-      <div>
+      <div id="Newton" class="method-form" style="display: none">
         <h2 class="title">Newton</h2>
         <form method="POST" action="/cap1/" class="form">
           {% csrf_token %}
@@ -103,9 +138,9 @@
           <input type="submit" value="Submit Form 1" class="button" />
         </form>
       </div>
-      <div>
+      <div id="Secante" class="method-form" style="display: none">
         <h2 class="title">Secante</h2>
-        <form method="POST" action="/cap1/" class="form">
+        <form method="POST" action="{% url 'cap1' %}" class="form">
           {% csrf_token %}
           <input
             type="text"
@@ -130,8 +165,12 @@
           <input type="hidden" name="form_type" value="Secante" />
           <input type="submit" value="Submit Form 1" class="button" />
         </form>
+        {% if selected_method == 'Secante' %} {% if result is not None %}
+          <button>Descargar</button></a>
+          <h1>{{name}}</h1>
+          {{result | safe}}{% endif %}{% endif %}
       </div>
-      <div>
+      <div id="Newton2" class="method-form" style="display: none">
         <h2 class="title">Newton raices multiples</h2>
         <form method="POST" action="/cap1/" class="form">
           {% csrf_token %}

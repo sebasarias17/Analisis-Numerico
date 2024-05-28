@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 def secante(f_str, X0, X1, tolerancia):
     # Definir la función a partir de la cadena de texto
@@ -8,27 +9,19 @@ def secante(f_str, X0, X1, tolerancia):
     n = 0
     error = 1
 
-    resultado = []
-    documento = 'secante.txt'
-    with open(documento, 'w') as file:
-        header = 'Iteración\tXn\t\tf(Xn)\t\tError\n'
-        file.write(header)
-        print(header)  # Imprimir el encabezado de la tabla
-        resultado.append(header.strip())  # Agregar el encabezado a la lista
+    resultados = []
 
-        while error > tolerancia:
-            n += 1
-            Xn1 = X1 - ((f(X1) * (X1 - X0)) / (f(X1) - f(X0)))
-            error = abs(Xn1 - X1)
-            line = f'{n}\t\t{Xn1:.8f}\t{f(Xn1):.8f}\t{error:.8f}\n'
-            file.write(line)
-            print(line.strip())  # Imprimir cada línea de la tabla
-            resultado.append(line.strip())  # Agregar la línea a la lista
-            X0 = X1
-            X1 = Xn1
+    while error > tolerancia:
+        n += 1
+        Xn1 = X1 - ((f(X1) * (X1 - X0)) / (f(X1) - f(X0)))
+        error = abs(Xn1 - X1)
+        resultados.append([n, Xn1, f(Xn1), error])
+        X0 = X1
+        X1 = Xn1
 
-        graficar_funcion(f, X1)
-        return X1, resultado
+    df_resultados = pd.DataFrame(resultados, columns=['Iteración', 'Xn', 'f(Xn)', 'Error'])
+    print(df_resultados)
+    return df_resultados
 
 def graficar_funcion(f, raiz):
     # Crear un rango de valores de x para graficar la función
@@ -46,3 +39,12 @@ def graficar_funcion(f, raiz):
     plt.legend()
     plt.grid(True)
     plt.show()
+
+# Ejemplo de uso
+"""f_str = 'np.exp(-x) - x'
+X0 = 0
+X1 = 1
+tolerancia = 1e-5
+
+df_resultados = secante(f_str, X0, X1, tolerancia)
+print(df_resultados)"""
