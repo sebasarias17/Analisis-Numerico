@@ -24,4 +24,5 @@ urlpatterns = [
     path('cap1/', cap1, name='cap1'),
     path('cap2/', cap2, name='cap2'),
     path('cap3/', cap3, name='cap3'),
+    path('cap4/', cap4, name='cap4'),
 ]

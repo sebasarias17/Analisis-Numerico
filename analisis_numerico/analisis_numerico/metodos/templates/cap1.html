@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Proyecto de Análisis Numérico</title>
+    <title>Capitulo 1</title>
     {% load static %}
     <link
       rel="stylesheet"
@@ -13,17 +13,111 @@
   </head>
   <body>
     <header>
-      <h1>Bienvenido al Capitulo 1</h1>
+      <h1>Bienvenido al Capitulo 3</h1>
     </header>
 
     <div class="button-container">
-      <button>Capítulo 2</button>
-      <button>Capítulo 3</button>
+      <a href="/cap1"><button>Capítulo 1</button></a>
+      <a href="/cap2"><button>Capítulo 2</button></a>
+      <a href="/cap4"><button>Capítulo 4</button></a>
     </div>
+    <div class="methods_container">
+      <div>
+        <h2 class="title">Bisección</h2>
+        <form method="POST" action="/cap4/" class="form">
+          {% csrf_token %}
+          <input
+            type="text"
+            placeholder="Cota superior"
+            class="input"
+            name="Xi"
+          />
+          <input
+            type="text"
+            placeholder="Cota inferior"
+            class="input"
+            name="Xs"
+          />
+          <input
+            type="text"
+            placeholder="Funcion"
+            class="input"
+            name="tol"
+          />
+          <input
+            type="text"
+            placeholder="Cantidad de iteraciones"
+            class="input"
+            name="n"
+          />
+          <input type="submit" value="Submit Form 1" class="button" />
+        </form>
+      </div>
 
+      <div>
+        <h2 class="title">Regla falsa</h2>
+        <form method="POST" action="/cap4/" class="form">
+          {% csrf_token %}
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="submit" value="Submit Form 1" class="button" />
+        </form>
+      </div>
+      <div>
+        <h2 class="title">Punto fijo</h2>
+        <form method="POST" action="/cap4/" class="form">
+          {% csrf_token %}
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="submit" value="Submit Form 1" class="button" />
+        </form>
+      </div>
+      <div>
+        <h2 class="title">Newton</h2>
+        <form method="POST" action="/cap4/" class="form">
+          {% csrf_token %}
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="submit" value="Submit Form 1" class="button" />
+        </form>
+      </div>
+      <div>
+        <h2 class="title">Secante</h2>
+        <form method="POST" action="/cap4/" class="form">
+          {% csrf_token %}
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="submit" value="Submit Form 1" class="button" />
+        </form>
+      </div>
+      <div>
+        <h2 class="title">Newton raices multiples</h2>
+        <form method="POST" action="/cap4/" class="form">
+          {% csrf_token %}
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="text" placeholder="" class="input" />
+          <input type="submit" value="Submit Form 1" class="button" />
+        </form>
+      </div>
+    </div>
     <footer>
       <div class="footer-content">
-        <h2>Integrantes del proyecto</h2>
+        <h2 class="title">Integrantes del proyecto</h2>
         <p class="name">Julián Mejía</p>
         <p class="name">David Grisales</p>
         <p class="name">Camilo</p>

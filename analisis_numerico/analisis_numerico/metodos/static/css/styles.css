@@ -1,0 +1,109 @@
+body {
+  font-family: "Sunflower", sans-serif;
+  background: linear-gradient(
+    to right,
+    #034657,
+    #000000
+  ); /* Degradado de izquierda a derecha */
+  font-size: 30px;
+  color: #ffffff; /* Cambia el color del texto a blanco para mejor contraste */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* Organiza los elementos en columna */
+  justify-content: center; /* Centra los elementos verticalmente */
+  align-items: center; /* Centra los elementos horizontalmente */
+}
+
+header h1 {
+  color: white;
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column; /* Organiza los botones en una columna */
+  align-items: center; /* Centra los botones horizontalmente */
+  padding: 100px; /* Espacio adicional arriba del contenedor de botones */
+}
+
+button {
+  font-family: "Sunflower", sans-serif;
+  margin: 10px 0; /* Espacio vertical entre botones */
+  padding: 10px 20px; /* Tamaño de los botones */
+  font-size: 40px; /* Tamaño del texto */
+  border-radius: 50px;
+  cursor: pointer;
+  border: none;
+  background-color: #ffffff;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background: transparent;
+  color: white;
+}
+
+footer {
+  width: 100%;
+  color: white;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  left: 0;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+.name {
+  font-size: 20px; /* Reduce el tamaño de la fuente para los nombres */
+  margin: 5px 0; /* Añade un pequeño margen entre los nombres */
+}
+
+.methods_container {
+  gap: 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.input {
+  font-family: "Sunflower", sans-serif;
+  width: 40%;
+  padding: 10px 15px;
+  border: none;
+  outline: none;
+  background-color: #f8e5e5;
+  font-size: 15px;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+}
+
+.form {
+    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  font-family: "Sunflower", sans-serif;
+  width: 45%;
+  padding: 10px 15px;
+  border: none;
+  outline: none;
+  background-color: #a7a7a7;
+  font-size: 15px;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+}
+
+.title{
+    text-align: center;
+    font-family: "Sunflower", sans-serif;
+    font-size: 55px;
+}
