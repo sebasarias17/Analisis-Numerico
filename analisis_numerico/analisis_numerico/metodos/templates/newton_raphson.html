@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Capítulo 1 - Método de Newton-Raphson</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles-cap3.css' %}"/>
+    <link href="https://fonts.cdnfonts.com/css/sunflower-2" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <h1>Método de Newton-Raphson</h1>
+    </header>
+    <div class="form-container">
+        <form method="POST" action="{% url 'newton_raphson' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Calcular</button>
+        </form>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <h2 class="title">Integrantes del proyecto</h2>
+            <p class="name">Julián Mejía</p>
+            <p class="name">David Grisales</p>
+            <p class="name">Camilo Córdoba Posada</p>
+            <p class="name">Juan Esteban Garcia</p>
+            <p class="name">Sebastián Arias Usma</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -24,6 +24,20 @@ from analisis_numerico.metodos.inputFixed import CorregirFuncion
 from analisis_numerico.metodos.SOR import SOR
 from analisis_numerico.metodos.JacobiSeidel import jacobi_Seidel
 import csv
+from analisis_numerico.metodos.vandermon import interpolate_vandermonde as vandermonde_logic
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.http import HttpResponse
+from .forms import VandermondeForm
+from .forms import NewtonForm
+import io
+import base64
+from analisis_numerico.metodos.newton_interpolante import newton_interpolating_polynomial, polynomial_expression
+from django.http import FileResponse, Http404
+import uuid
+from .forms import NewtonRaphsonForm
+from .newton_raphson import newton_raphson
+from .inputFixed import CorregirFuncion
 
 
 def home(request):
@@ -180,3 +194,189 @@ def cap2(request):
 
 def cap3(request):
     return render(request, "cap3.html")
+
+def interpolate_vandermonde(request):
+    if request.method == 'POST':
+        form = VandermondeForm(request.POST)
+        if form.is_valid():
+            x_values = list(map(float, form.cleaned_data['x_values'].split(',')))
+            y_values = list(map(float, form.cleaned_data['y_values'].split(',')))
+
+            poly = vandermonde_logic(x_values, y_values)
+
+            poly_text = str(poly)
+            txt_filename = f'polynomial_{uuid.uuid4().hex}.txt'
+            txt_path = default_storage.save(txt_filename, ContentFile(poly_text.encode('utf-8')))
+
+            plt.figure()
+            xp = np.linspace(min(x_values) - 10, max(x_values) + 10, 1000)
+            plt.plot(x_values, y_values, 'o', label='Puntos de datos')
+            plt.plot(xp, [poly(xi) for xi in xp], '-', label='Polinomio de Vandermonde')
+            plt.axhline(0, color='black', linewidth=0.5)
+            plt.axvline(0, color='black', linewidth=0.5)
+            plt.legend()
+            
+            x_margin = (max(x_values) - min(x_values)) * 1.5
+            y_margin = (max(y_values) - min(y_values)) * 1.5
+            plt.xlim([min(x_values) - x_margin, max(x_values) + x_margin])
+            plt.ylim([min(y_values) - y_margin, max(y_values) + y_margin])
+
+            buf = io.BytesIO()
+            plt.savefig(buf, format='png')
+            buf.seek(0)
+            image_filename = f'plot_{uuid.uuid4().hex}.png'
+            image_path = default_storage.save(image_filename, ContentFile(buf.getvalue()))
+
+            image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+            buf.close()
+
+            return render(request, 'results.html', {
+                'method_name': 'Vandermonde',
+                'poly': poly_text,
+                'image_url': image_path,
+                'txt_url': txt_path,
+                'image_base64': image_base64
+            })
+    else:
+        form = VandermondeForm()
+    return render(request, 'interpolate.html', {'form': form})
+
+def interpolate_newton(request):
+    if request.method == 'POST':
+        form = NewtonForm(request.POST)
+        if form.is_valid():
+            x_values = list(map(float, form.cleaned_data['x_values'].split(',')))
+            y_values = list(map(float, form.cleaned_data['y_values'].split(',')))
+
+            poly, coef = newton_interpolating_polynomial(x_values, y_values)
+            poly_expr = polynomial_expression(coef, x_values)
+
+            poly_text = f'Coeficientes: {coef}\nPolinomio: {poly_expr}'
+            txt_filename = f'newton_polynomial_{uuid.uuid4().hex}.txt'
+            txt_path = default_storage.save(txt_filename, ContentFile(poly_text.encode('utf-8')))
+
+            plt.figure()
+            xp = np.linspace(min(x_values) - 10, max(x_values) + 10, 1000)
+            plt.plot(x_values, y_values, 'o', label='Puntos de datos')
+            plt.plot(xp, [poly(xi) for xi in xp], '-', label='Polinomio de Newton')
+            plt.axhline(0, color='black', linewidth=0.5)
+            plt.axvline(0, color='black', linewidth=0.5)
+            plt.legend()
+
+            x_margin = (max(x_values) - min(x_values)) * 1.5
+            y_margin = (max(y_values) - min(y_values)) * 1.5
+            plt.xlim([min(x_values) - x_margin, max(x_values) + x_margin])
+            plt.ylim([min(y_values) - y_margin, max(y_values) + y_margin])
+
+            buf = io.BytesIO()
+            plt.savefig(buf, format='png')
+            buf.seek(0)
+            image_filename = f'newton_plot_{uuid.uuid4().hex}.png'
+            image_path = default_storage.save(image_filename, ContentFile(buf.getvalue()))
+
+            image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+            buf.close()
+
+            return render(request, 'results.html', {
+                'method_name': 'Newton',
+                'poly': poly_expr,
+                'image_url': image_path,
+                'txt_url': txt_path,
+                'image_base64': image_base64
+            })
+    else:
+        form = NewtonForm()
+    return render(request, 'interpolate.html', {'form': form})
+
+
+
+def newton_raphson(f, df, x0, tol, max_iter):
+    x = x0
+    table = []
+    decimal_places = abs(int(np.log10(tol)))
+    
+    for i in range(max_iter):
+        fx = f(x)
+        dfx = df(x)
+        if dfx == 0:
+            break
+        x_new = x - fx / dfx
+        error = abs(x_new - x)
+        if i == 0:
+            table.append((i, f"{x:.{decimal_places}f}", f"{fx:.{decimal_places}e}", ''))
+        else:
+            table.append((i, f"{x:.{decimal_places}f}", f"{fx:.{decimal_places}e}", f"{error:.{decimal_places}e}"))
+        if error < tol:
+            table.append((i + 1, f"{x_new:.{decimal_places}f}", f"{f(x_new):.{decimal_places}e}", f"{error:.{decimal_places}e}"))
+            break
+        x = x_new
+    return x, table
+
+def newton_raphson_view(request):
+    if request.method == 'POST':
+        form = NewtonRaphsonForm(request.POST)
+        if form.is_valid():
+            function = form.cleaned_data['function']
+            derivative = form.cleaned_data['derivative']
+            x0 = form.cleaned_data['x0']
+            tol = form.cleaned_data['tolerance']
+            max_iter = form.cleaned_data['max_iterations']
+
+            function = CorregirFuncion(function)
+            derivative = CorregirFuncion(derivative)
+
+            try:
+                f = eval(f"lambda x: {function}", {"np": np})
+                df = eval(f"lambda x: {derivative}", {"np": np})
+
+                root, table = newton_raphson(f, df, x0, tol, max_iter)
+
+                txt_content = "Iter\t x\t f(x)\t Error\n" + "\n".join(
+                    f"{i}\t{xi}\t{fxi}\t{error}" for i, xi, fxi, error in table
+                )
+
+                txt_filename = f"newton_raphson_{uuid.uuid4().hex}.txt"
+                txt_path = default_storage.save(txt_filename, ContentFile(txt_content.encode('utf-8')))
+
+                xp = np.linspace(x0 - 10, x0 + 10, 400)
+                yp = [f(xi) for xi in xp]
+                dyp = [df(xi) for xi in xp]
+
+                plt.figure()
+                plt.plot(xp, yp, label="f(x)")
+                plt.plot(xp, dyp, label="f'(x)", linestyle='--')
+                plt.axhline(0, color='black', linewidth=0.5)
+                plt.axvline(0, color='black', linewidth=0.5)
+                plt.scatter([float(xi) for _, xi, _, _ in table if xi != ''], [f(float(xi)) for _, xi, _, _ in table if xi != ''], color='red', zorder=5)
+                plt.legend()
+
+                buf = io.BytesIO()
+                plt.savefig(buf, format='png')
+                buf.seek(0)
+                image_filename = f"newton_raphson_{uuid.uuid4().hex}.png"
+                image_path = default_storage.save(image_filename, ContentFile(buf.getvalue()))
+
+                image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+                buf.close()
+
+                return render(request, 'newton_raphson_results.html', {
+                    'form': form,
+                    'root': root,
+                    'table': table,
+                    'txt_url': txt_path,
+                    'image_base64': image_base64,
+                    'image_url': image_path
+                })
+            except Exception as e:
+                return render(request, 'newton_raphson.html', {'form': form, 'error': str(e)})
+    else:
+        form = NewtonRaphsonForm()
+    return render(request, 'newton_raphson.html', {'form': form})
+
+
+def download_file(request, filename):
+    file_path = default_storage.path(filename)
+    try:
+        return FileResponse(open(file_path, 'rb'), as_attachment=True)
+    except FileNotFoundError:
+        raise Http404("File not found")

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Resultados de la Interpolación de Newton</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles-cap3.css' %}">
+    <link href="https://fonts.cdnfonts.com/css/sunflower-2" rel="stylesheet" />
+  </head>
+  <body>
+    <header>
+      <h1>Resultados de la Interpolación de Newton</h1>
+    </header>
+    <div class="methods_container">
+      <p><strong>Polinomio:</strong></p>
+      <pre>{{ poly }}</pre>
+      <a href="{% url 'download_file' filename=txt_url %}">Descargar Polinomio (TXT)</a>
+      <br>
+      <img src="data:image/png;base64,{{ image_base64 }}" alt="Gráfica">
+      <br>
+      <a href="{% url 'download_file' filename=image_url %}">Descargar Gráfica (PNG)</a>
+    </div>
+    <footer>
+      <div class="footer-content">
+        <h2 class="title">Integrantes del proyecto</h2>
+        <p class="name">Julián Mejía</p>
+        <p class="name">David Grisales</p>
+        <p class="name">Camilo Córdoba Posada</p>
+        <p class="name">Juan Esteban Garcia</p>
+        <p class="name">Sebastián Arias Usma</p>
+      </div>
+    </footer>
+  </body>
+</html>
+

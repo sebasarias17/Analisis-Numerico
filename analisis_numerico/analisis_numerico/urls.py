@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .metodos.views import *
+from analisis_numerico.metodos.views import interpolate_vandermonde, download_file
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +26,9 @@ urlpatterns = [
     path('cap2/', cap2, name='cap2'),
     path('cap3/', cap3, name='cap3'),
     path('cap4/', cap4, name='cap4'),
+    path('vandermonde/', interpolate_vandermonde, name = 'vandermonde'),
+    path('download/<str:filename>/', download_file, name='download_file'), 
+    path('newtoninterpolante/', interpolate_newton, name='newton'),
+    path('download/<str:filename>/', download_file, name='download_file'),
+    #path('newton_raphson/', newton_raphson_view, name='newton_raphson'),
 ]
