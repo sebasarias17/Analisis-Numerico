@@ -2,91 +2,132 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Capitulo 3</title>
+    <title>Capitulo 4</title>
     {% load static %}
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/styles.css' %}"
-    />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles-cap4.css' %}"/>
     <link href="https://fonts.cdnfonts.com/css/sunflower-2" rel="stylesheet" />
+    <script>
+      function showForm(method) {
+        document.querySelectorAll('.method-form').forEach(form => {
+          form.style.display = 'none';
+        });
+        if (method) {
+          document.getElementById(method).style.display = 'block';
+        }
+      }
+      window.onload = function() {
+        const selectedMethod = "{{ selected_method }}";
+        if (selectedMethod) {
+          showForm(selectedMethod);
+          document.getElementById('method-select').value = selectedMethod;
+        }
+      }
+    </script>
   </head>
   <body>
     <header>
-      <h1>Bienvenido al Capitulo 3</h1>
+      <h1>Bienvenido al Capitulo 4</h1>
     </header>
 
     <div class="button-container">
-      <a href="/cap3"><button>Capítulo 3</button></a>
-      <a href="/cap2"><button>Capítulo 2</button></a>
       <a href="/cap1"><button>Capítulo 1</button></a>
+      <a href="/cap2"><button>Capítulo 2</button></a>
+      <a href="/cap3"><button>Capítulo 3</button></a>
+      <a href="/"><button>Regresar al inicio</button></a>
     </div>
+
     <div class="methods_container">
-      <div>
-        <h2 class="title">Metodo ruku4</h2>
-        <form method="POST" action="/cap4/" class="form">
-          {% csrf_token %}
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="submit" value="Submit Form 1" class="button" />
-        </form>
-      </div>
-
-      <div>
-        <h2 class="title">Metodo simpson 1/3</h2>
-        <form method="POST" action="/cap4/" class="form">
-          {% csrf_token %}
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="text" placeholder="" class="input" />
-          <input type="submit" value="Submit Form 1" class="button" />
-        </form>
-      </div>
-
-      <div>
-        <h2 class="title">Metodo trapecio</h2>
-        <form method="POST" action="/cap4/" class="form">
-          {% csrf_token %}
-          <input
-            type="text"
-            placeholder="Cota superior"
-            class="input"
-            name="Cota superior"
-          />
-          <input
-            type="text"
-            placeholder="Cota inferior"
-            class="input"
-            name="Cota inferior"
-          />
-          <input
-            type="text"
-            placeholder="Funcion"
-            class="input"
-            name="Funcion"
-          />
-          <input
-            type="text"
-            placeholder="Cantidad de iteraciones"
-            class="input"
-            name="n"
-          />
-          <input type="submit" value="Submit Form 1" class="button" />
-        </form>
-      </div>
+      <label for="method-select">Selecciona un método:</label>
+      <select id="method-select" onchange="showForm(this.value)">
+        <option value="">--Selecciona un método--</option>
+        <option value="simpson38">Simpson 3/8</option>
+        <option value="simpson13">Simpson 1/3</option>
+        <option value="trapecio">Trapecio</option>
+      </select>
     </div>
+
+    <div id="simpson38" class="method-form" style="display: none;">
+      <p>Recuerde que en este metodo debe ingresar el límite inferior de integración (a), el límite superior de integración (b) y el número de subintervalos (múltiplo de 3).</p>
+      <h2 class="title">Metodo simpson 3/8</h2>
+      <form method="POST" action="{% url 'cap4' %}" class="form">
+        {% csrf_token %}
+        <input type="hidden" name="method" value="simpson38" />
+        <input type="text" placeholder="Cota inferior (a)" class="input" name="a" value="{{ a }}" />
+        <input type="text" placeholder="Cota superior (b)" class="input" name="b" value="{{ b }}" />
+        <input type="text" placeholder="Número de intervalos (n)" class="input" name="n" value="{{ n }}" />
+        <input type="submit" value="Calcular" class="button" />
+      </form>
+      {% if selected_method == 'simpson38' %}
+        {% if result is not None %}
+          <p>Resultado: {{ result }}</p>
+        {% endif %}
+        {% if error %}
+          <p style="color:red;">Error: {{ error }}</p>
+        {% endif %}
+        {% if img_data %}
+          <img src="data:image/png;base64,{{ img_data }}" alt="Gráfica de la función"/>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    <div id="simpson13" class="method-form" style="display: none;">
+      <p>Recuerde que en este metodo debe ingresar el límite inferior de integración (a), el límite superior de integración (b) y el número de subintervalos (mayor que 1).</p>
+      <h2 class="title">Metodo simpson 1/3</h2>
+      <form method="POST" action="{% url 'cap4' %}" class="form">
+        {% csrf_token %}
+        <input type="hidden" name="method" value="simpson13" />
+        <input type="text" placeholder="Cota inferior (a)" class="input" name="a" value="{{ a }}" />
+        <input type="text" placeholder="Cota superior (b)" class="input" name="b" value="{{ b }}" />
+        <input type="text" placeholder="Número de intervalos (n)" class="input" name="n" value="{{ n }}" />
+        <input type="submit" value="Calcular" class="button" />
+      </form>
+      {% if selected_method == 'simpson13' %}
+        {% if result is not None %}
+          <p>Resultado: {{ result }}</p>
+        {% endif %}
+        {% if error %}
+          <p style="color:red;">Error: {{ error }}</p>
+        {% endif %}
+        {% if img_data %}
+          <img src="data:image/png;base64,{{ img_data }}" alt="Gráfica de la función"/>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    <div id="trapecio" class="method-form" style="display: none;">
+      <p>Recuerde que en este metodo debe ingresar el límite inferior de integración (a), el límite superior de integración (b) y el número de subintervalos.</p>
+      <h2 class="title">Metodo Trapecio</h2>
+      <form method="POST" action="{% url 'cap4' %}" class="form">
+        {% csrf_token %}
+        <input type="hidden" name="method" value="trapecio" />
+        <input type="text" placeholder="Cota inferior (a)" class="input" name="a" value="{{ a }}" />
+        <input type="text" placeholder="Cota superior (b)" class="input" name="b" value="{{ b }}" />
+        <input type="text" placeholder="Número de intervalos (n)" class="input" name="n" value="{{ n }}" />
+        <input type="submit" value="Calcular" class="button" />
+      </form>
+      {% if selected_method == 'trapecio' %}
+        {% if result is not None %}
+          <p>Resultado: {{ result }}</p>
+        {% endif %}
+        {% if error %}
+          <p style="color:red;">Error: {{ error }}</p>
+        {% endif %}
+        {% if table_html %}
+          <div>{{ table_html|safe }}</div>
+        {% endif %}
+        {% if img_data %}
+          <img src="data:image/png;base64,{{ img_data }}" alt="Gráfica de la función"/>
+        {% endif %}
+      {% endif %}
+    </div>
+
     <footer>
       <div class="footer-content">
         <h2 class="title">Integrantes del proyecto</h2>
         <p class="name">Julián Mejía</p>
         <p class="name">David Grisales</p>
-        <p class="name">Camilo</p>
-        <p class="name">Juancito</p>
+        <p class="name">Camilo Córdoba Posada</p>
+        <p class="name">Juan Esteban Garcia</p>
         <p class="name">Sebastián Arias Usma</p>
       </div>
     </footer>
